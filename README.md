@@ -14,7 +14,7 @@ funções criadas através do console da AWS
 
 para empacotar:
 
-pip install --target ./package <dependencies>
+pip3 install -r requirements.txt --target ./package
 
 cd package/
 
