@@ -28,15 +28,15 @@ def handler(data, context):
     """
     This function creates a contact in MySQL RDS instance
     """
-    contact = json.loads(data)
     with conn.cursor() as cur:
-        cur.execute("create table if not exists CREATE TABLE CONTACT"
+        cur.execute("create table if not exists CONTACT"
             "(id INT AUTO_INCREMENT PRIMARY KEY,"+
             "contact_name VARCHAR(100) DEFAULT 'null',"+
             "contact_email VARCHAR(100) DEFAULT 'null',"+  
             "contact_phone VARCHAR(14) DEFAULT 'null',"+
             "contact_birth DATE);")
-        cur.execute(f"insert into CONTACT (contact_name,contact_email,contact_phone,contact_birth) values({contact['name']},{contact['email']},{contact['phone']},{contact['birth']})")
+        cur.execute(f"insert into CONTACT (contact_name,contact_email,contact_phone,contact_birth)"+
+        f"values('{data['name']}','{data['email']}','{data['phone']}','{data['birth']}')")
         conn.commit()
         logger.info("SUCCESS: Contact created")
     conn.commit()

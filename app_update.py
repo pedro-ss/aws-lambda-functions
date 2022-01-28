@@ -26,22 +26,17 @@ logger.info("SUCCESS: Connection to RDS MySQL instance succeeded")
 # Handler method
 def handler(data, context):
     """
-    This function find a contact by id in MySQL RDS instance
+    This function updates a contact in MySQL RDS instance
     """
-    contact_list = []
+    
     with conn.cursor() as cur:
-        cur.execute(f"SELECT id,contact_name,contact_email,contact_phone,contact_birth FROM CONTACT WHERE ID = {data};")
-        result = list(cur.fetchall())
+        cur.execute(f"UPDATE  CONTACT SET "+
+        f"contact_name = '{data['name']}',"+
+        f"contact_email = '{data['email']}',"+
+        f"contact_phone = '{data['phone']}',"+
+        f"contact_birth = '{data['birth']}' WHERE id = '{data['id']}';")
         conn.commit()
-        logger.info("SUCCESS: selecting Contacts")
-        for row in result:
-            contact_list.append(json.dumps({
-                'id':row[0],
-                'name':row[1],
-                'email':row[2],
-                'phone':row[3],
-                'birth':str(row[4])
-            }))
-        logger.info("SUCCESS: Contact has found")
+        logger.info("SUCCESS: Contact updated")
     conn.commit()
-    return contact_list[0]
+
+    return "Updating a contact in RDS MySQL table"

@@ -28,7 +28,7 @@ def handler(data, context):
     This function creates a contact in MySQL RDS instance
     """
     with conn.cursor() as cur:
-        cur.execute(f"DELETE FROM CONTACT WHERE ID = {data};")
+        cur.execute(f"DELETE FROM CONTACT WHERE ID = {data['id']};")
         conn.commit()
         logger.info("SUCCESS: Contact deleted")
     conn.commit()
